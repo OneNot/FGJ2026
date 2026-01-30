@@ -13,3 +13,11 @@
 			- The mask essentially masks the albedo texture of the object to make parts of it transparent
 		3. Transparent parts of the object have their collision turned off, so the player will fall through those parts of the object
 		4. Player then platforms through the edited parts of the level
+# Artstyle
+- Paint Doodles made 3D. (flat-ish, but 3d)
+- Cardboard?
+	- Characters and objects could have a cardboard base, and then have the doodle doodled onto the cutout
+		- Think Paper Mario
+		- To derivative?
+<img width="1211" height="718" alt="kuva" src="https://github.com/user-attachments/assets/f3eec5bb-942f-4b8d-808f-7ff01391fcf8" />
+<img width="612" height="489" alt="kuva" src="https://github.com/user-attachments/assets/6a8e3952-c3cc-4d24-bd94-9e77a1500cac" />
