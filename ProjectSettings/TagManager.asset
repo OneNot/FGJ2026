@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Checkpoint
   - WinFlag
+  - InteractableObject
   layers:
   - Default
   - TransparentFX
