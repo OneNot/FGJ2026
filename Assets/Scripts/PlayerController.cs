@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed = 5f,
     fakeGravity = -9.81f,
     jumpHeight = 1.5f,
-    maxJumpHoldTime = 0.5f;
+    maxJumpHoldTime = 0.5f,
+    initialJumpVelocityEffectOnJumpArc = 0.5f;
 
-    private float verticalVelocity = 0f;
-    private float jumpHoldTime = 0f;
+
+    private float verticalVelocity = 0f,
+    jumpHoldTime = 0f;
     private bool wasJumpPressedLastFrame = false;
+    private Vector3 initialHorizontalJumpVelocity;
 
     void OnEnable()
     {
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //get input
+        //get movement input
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 moveInput = Vector3.ClampMagnitude(new Vector3(input.x, 0, input.y), 1f);
 
@@ -56,6 +59,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpHoldTime = 0f;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * fakeGravity);
+            initialHorizontalJumpVelocity = moveInput * moveSpeed * initialJumpVelocityEffectOnJumpArc;
         }
 
         //while holding jump and haven't exceeded max hold time, reduce gravity to sustain height
@@ -78,8 +82,19 @@ public class PlayerController : MonoBehaviour
 
         wasJumpPressedLastFrame = jumpPressed;
 
-        //horizontal move from input
-        Vector3 horizontalMove = moveInput * moveSpeed * Time.deltaTime;
+        //calculate horizontal movement
+        Vector3 horizontalMove = moveInput * moveSpeed;
+
+        //if mid-air, add initial jump horizontal velocity
+        if (!characterController.isGrounded)
+        {
+            horizontalMove += initialHorizontalJumpVelocity;
+        }
+
+        //apply deltaTime to horizontal movement
+        horizontalMove *= Time.deltaTime;
+
+        //calculate vertical movement
         Vector3 verticalMove = Vector3.up * verticalVelocity * Time.deltaTime;
 
         //combine and apply movement
