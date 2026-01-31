@@ -3,8 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private InputActionAsset inputActionAsset;
     private InputAction moveAction, jumpAction;
 
     private CharacterController characterController;
@@ -15,7 +13,7 @@ public class PlayerController : MonoBehaviour
     jumpHeight = 1.5f,
     maxJumpHoldTime = 0.5f,
     initialJumpVelocityEffectOnJumpArc = 0.5f;
-
+    private Animator anim;
 
     private float verticalVelocity = 0f,
     jumpHoldTime = 0f;
@@ -23,20 +21,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 initialHorizontalJumpVelocity;
 
     public bool playerGrounded => characterController.isGrounded;
-    void OnEnable()
-    {
-        inputActionAsset.FindActionMap("Player").Enable();
-    }
-    void OnDisable()
-    {
-        inputActionAsset.FindActionMap("Player").Disable();
-    }
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        moveAction = inputActionAsset.FindAction("Move");
-        jumpAction = inputActionAsset.FindAction("Jump");
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
+	anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -44,7 +35,7 @@ public class PlayerController : MonoBehaviour
         //get movement input
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 moveInput = Vector3.ClampMagnitude(new Vector3(input.x, 0, input.y), 1f);
-
+	
         //rotate player to face move direction if moving
         if (moveInput != Vector3.zero) 
         {
@@ -61,6 +52,7 @@ public class PlayerController : MonoBehaviour
             jumpHoldTime = 0f;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * fakeGravity);
             initialHorizontalJumpVelocity = moveInput * moveSpeed * initialJumpVelocityEffectOnJumpArc;
+	    anim.SetTrigger("jump");
         }
 
         //while holding jump and haven't exceeded max hold time, reduce gravity to sustain height
@@ -91,9 +83,14 @@ public class PlayerController : MonoBehaviour
         {
             horizontalMove += initialHorizontalJumpVelocity;
         }
+	anim.SetBool("falling",!characterController.isGrounded);
+
 
         //apply deltaTime to horizontal movement
         horizontalMove *= Time.deltaTime;
+
+	//apply speed to animation
+	anim.SetFloat("speed",horizontalMove.magnitude);
 
         //calculate vertical movement
         Vector3 verticalMove = Vector3.up * verticalVelocity * Time.deltaTime;
