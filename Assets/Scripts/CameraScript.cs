@@ -14,8 +14,8 @@ public class CameraScript : MonoBehaviour
     private float addpitch = 5.0f;
     private float distanceAdd = 0.2f;
     private float heightAdd = 0.2f;
-    public float minPitch = -180f;
-    [SerializeField] private float maxPitch = 180f;
+    public float minValue = -180f;
+    private float maxValue = 180f;
     public float pitch;
     private float lockedY;
     private PlayerController player;
@@ -26,23 +26,23 @@ public class CameraScript : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         target = GameObject.FindWithTag("Player").GetComponent<Transform>(); 
-        pitch = Mathf.Clamp(Normalize180(transform.eulerAngles.x), minPitch, maxPitch);
+        pitch = Mathf.Clamp(Normalize180(transform.eulerAngles.x), minValue, maxValue);
         lockedY= target.position.y;
         
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if(target==null) return;
-        Vector3 pivot = new Vector3 (target.position.x, lockedY+height,target.position.z);
-        Quaternion camtarget = Quaternion.Euler(pitch,0f,0f);
-        Vector3 newpos = pivot +(camtarget*Vector3.back * distance);
+        Vector3 playerlocation = new Vector3 (target.position.x, lockedY+height,target.position.z);
+        Quaternion camerarotation = Quaternion.Euler(pitch,0f,0f);
+        Vector3 sightline = playerlocation +(camerarotation*Vector3.back * distance);
 
-        transform.position = Vector3.Lerp (transform.position, newpos, smooth*Time.deltaTime);
+        transform.position = Vector3.Lerp (transform.position, sightline, smooth*Time.deltaTime);
         
 
-        transform.rotation = Quaternion.LookRotation(pivot - transform.position, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(playerlocation - transform.position, Vector3.up);
 
         if (player.playerGrounded)
         {
@@ -54,42 +54,42 @@ public class CameraScript : MonoBehaviour
     void OnTiltUp(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(pitch+ addpitch,minPitch,maxPitch);
+        pitch = Mathf.Clamp(pitch+ addpitch,minValue,maxValue);
 
     }
 
     void OnTiltDown(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(pitch-addpitch,minPitch,maxPitch);
+        pitch = Mathf.Clamp(pitch-addpitch,minValue,maxValue);
 
     }
 
     void OnHeightUp(InputValue value)
     {
         if(!value.isPressed) return;
-        height = Mathf.Clamp(height+ heightAdd,minPitch,maxPitch);
+        height = Mathf.Clamp(height+ heightAdd,minValue,maxValue);
 
     }
 
     void OnHeightDown(InputValue value)
     {
         if(!value.isPressed) return;
-        height = Mathf.Clamp(height- heightAdd,minPitch,maxPitch);
+        height = Mathf.Clamp(height- heightAdd,minValue,maxValue);
 
     }
 
     void OnDistanceUp(InputValue value)
     {
         if(!value.isPressed) return;
-        distance = Mathf.Clamp(distance+ distanceAdd,minPitch,maxPitch);
+        distance = Mathf.Clamp(distance+ distanceAdd,minValue,maxValue);
 
     }
 
     void OnDistanceDown(InputValue value)
     {
         if(!value.isPressed) return;
-        distance = Mathf.Clamp(distance- distanceAdd,minPitch,maxPitch);
+        distance = Mathf.Clamp(distance- distanceAdd,minValue,maxValue);
 
     }
 
