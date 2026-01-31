@@ -1,11 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private InputAction moveAction, jumpAction;
+    public UIManager uiManager;
+
+    private InputAction moveAction, jumpAction, interactAction;
 
     private CharacterController characterController;
+
+    private List<GameObject> interactableObjects = new List<GameObject>();
 
     [SerializeField]
     private float moveSpeed = 5f,
@@ -27,11 +32,55 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
-	anim = GetComponentInChildren<Animator>();
+        interactAction = InputSystem.actions.FindAction("Interact");
+	    anim = GetComponentInChildren<Animator>();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("InteractableObject"))
+        {
+            interactableObjects.Add(other.gameObject);
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("InteractableObject"))
+        {
+            interactableObjects.Remove(other.gameObject);
+        }
+    }
+
+    //TODO: Switch inputs to event-based system rather than polling every frame
     void Update()
     {
+        if(interactAction.WasPressedThisFrame() && interactableObjects.Count > 0)
+        {
+            GameObject nearestObject = null;
+            float nearestDistanceSqr = float.MaxValue;
+            Vector3 playerPosition = transform.position;
+
+            foreach(GameObject obj in interactableObjects)
+            {
+                float distSqr = (obj.transform.position - playerPosition).sqrMagnitude;
+                if(distSqr < nearestDistanceSqr)
+                {
+                    nearestDistanceSqr = distSqr;
+                    nearestObject = obj;
+                }
+            }
+
+            if(nearestObject != null)
+            {
+                Texture2D textureToEdit = nearestObject.GetComponent<Renderer>().material.GetTexture("_OpacityMask") as Texture2D;
+                if(textureToEdit != null)
+                {
+                    Debug.Log("Opening Texture Editor for object: " + nearestObject.name + " with texture: " + textureToEdit.name + " using UIManager: " + uiManager.name);
+                    uiManager.StartTextureEditorWithTexture(textureToEdit);
+                }
+            }
+        }
+
         //get movement input
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 moveInput = Vector3.ClampMagnitude(new Vector3(input.x, 0, input.y), 1f);
@@ -52,7 +101,7 @@ public class PlayerController : MonoBehaviour
             jumpHoldTime = 0f;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * fakeGravity);
             initialHorizontalJumpVelocity = moveInput * moveSpeed * initialJumpVelocityEffectOnJumpArc;
-	    anim.SetTrigger("jump");
+	        anim.SetTrigger("jump");
         }
 
         //while holding jump and haven't exceeded max hold time, reduce gravity to sustain height
@@ -83,14 +132,14 @@ public class PlayerController : MonoBehaviour
         {
             horizontalMove += initialHorizontalJumpVelocity;
         }
-	anim.SetBool("falling",!characterController.isGrounded);
+	    anim.SetBool("falling",!characterController.isGrounded);
 
 
         //apply deltaTime to horizontal movement
         horizontalMove *= Time.deltaTime;
 
-	//apply speed to animation
-	anim.SetFloat("speed",horizontalMove.magnitude);
+        //apply speed to animation
+        anim.SetFloat("speed",horizontalMove.magnitude);
 
         //calculate vertical movement
         Vector3 verticalMove = Vector3.up * verticalVelocity * Time.deltaTime;
