@@ -11,26 +11,35 @@ public class MaskChangerTest : MonoBehaviour
 
     [SerializeField]
     private Texture2D newMaskTexture;
-    private Texture2D originalMaskTexture;
+    private Texture2D maskTexture;
+
+    private Color[] originalPixels;
+    private bool isOriginal = true;
+
 
     void Awake()
     {
         jumpAction = inputActionAsset.FindAction("Jump");
         rendererComponent = gameObject.GetComponent<Renderer>();
-        originalMaskTexture = (Texture2D)rendererComponent.material.GetTexture("_OpacityMask");
+        maskTexture = (Texture2D)rendererComponent.material.GetTexture("_OpacityMask");
+        originalPixels = maskTexture.GetPixels();
     }
 
     void Update()
     {
         if (jumpAction.triggered)
         {
-            if(rendererComponent.material.GetTexture("_OpacityMask") != newMaskTexture) {
-                rendererComponent.material.SetTexture("_OpacityMask", newMaskTexture);
-                Debug.Log("Mask Changed to New Texture");
+            if(isOriginal)
+            {
+                maskTexture.SetPixels(newMaskTexture.GetPixels());
+                maskTexture.Apply();
+                isOriginal = false;
             }
-            else {
-                rendererComponent.material.SetTexture("_OpacityMask", originalMaskTexture);
-                Debug.Log("Mask Reverted to Original Texture");
+            else
+            {
+                maskTexture.SetPixels(originalPixels);
+                maskTexture.Apply();
+                isOriginal = true;
             }
         }
     }
