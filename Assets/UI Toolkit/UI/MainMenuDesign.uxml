@@ -1,0 +1,18 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UI/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=fc2ec85a9a7bcdf48967e2a4e591f88d&amp;type=3#MainMenuStyle"/>
+    <ui:VisualElement name="BackGround" class="root" style="flex-grow: 1; opacity: 1; aspect-ratio: auto; align-items: center; overflow: visible; min-width: 100%; min-height: 100%; max-width: 100%; max-height: 100%;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-items: stretch; justify-content: center; align-self: auto; align-content: auto; opacity: 1; width: 100%; height: 100%; min-width: 100px; min-height: 100%; max-width: 100%; max-height: 100%;">
+            <ui:VisualElement name="MenuContainer" style="flex-grow: 1; width: 30%; height: 55%; align-items: stretch; align-self: flex-end; flex-wrap: nowrap; position: absolute; left: 1029px; right: 78px; top: 285px; aspect-ratio: 1.777778; flex-direction: column; max-width: 30%; min-width: 30%; min-height: 55%; max-height: 55%;">
+                <ui:VisualElement name="TitleText" class="title_container" style="flex-grow: 1; opacity: 1; flex-basis: 832px; justify-content: space-evenly; align-items: center; max-width: 100%; min-width: 100%; min-height: 30%;">
+                    <ui:Label text="Doodle Mask&#10;" name="Title" class="title_text" style="font-size: 80%; justify-content: flex-start; align-items: auto; -unity-text-align: middle-center; height: 100%; align-content: auto; white-space: normal; min-width: 100%; min-height: 30%; max-width: 100%;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; flex-direction: column; align-items: flex-end; justify-content: flex-end; align-self: stretch; width: 100%; height: 70%; overflow: hidden; min-width: 100%; min-height: 70%; max-width: 100%; max-height: 70%;">
+                    <ui:Button text="Start Game&#10;" name="StartGame" style="height: 25%; font-size: 50%; opacity: 0.6; width: 100%; aspect-ratio: auto; -unity-font-style: bold;"/>
+                    <ui:Button text="Options&#10;" name="Options" style="height: 25%; font-size: 50%; opacity: 0.6; width: 100%; -unity-font-style: bold;"/>
+                    <ui:Button text="Credits&#10;" name="Credits" style="height: 25%; font-size: 50%; opacity: 0.6; width: 100%; -unity-font-style: bold;"/>
+                    <ui:Button text="Exit Game&#10;" name="ExitGame" emoji-fallback-support="false" style="height: 25%; font-size: 50%; opacity: 0.6; width: 100%; -unity-font-style: bold;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
