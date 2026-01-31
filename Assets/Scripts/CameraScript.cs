@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -10,28 +11,23 @@ public class CameraScript : MonoBehaviour
     public float smooth = 5f;
     public float distance = 6f;
     public float height = 1.2f;
-    public Vector3 offset = new Vector3(0,3,-6);
-    InputAction tiltup;
-    InputAction tiltdown;
-    InputAction zoomin;
-    InputAction zoomout;
-    public float addpitch = 5.0f;
-    private float distanceAdd = 5.0f;
-    private float heightAdd = 5.0f;
+    private float addpitch = 5.0f;
+    private float distanceAdd = 0.2f;
+    private float heightAdd = 0.2f;
     public float minPitch = -180f;
     [SerializeField] private float maxPitch = 180f;
     public float pitch;
-    PlayerController controller;
     private float lockedY;
     private PlayerController player;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         target = GameObject.FindWithTag("Player").GetComponent<Transform>(); 
         pitch = Mathf.Clamp(Normalize180(transform.eulerAngles.x), minPitch, maxPitch);
-
+        lockedY= target.position.y;
         
     }
 
@@ -39,7 +35,7 @@ public class CameraScript : MonoBehaviour
     void Update()
     {
         if(target==null) return;
-        Vector3 pivot = target.position + Vector3.up * height;
+        Vector3 pivot = new Vector3 (target.position.x, lockedY+height,target.position.z);
         Quaternion camtarget = Quaternion.Euler(pitch,0f,0f);
         Vector3 newpos = pivot +(camtarget*Vector3.back * distance);
 
@@ -72,28 +68,28 @@ public class CameraScript : MonoBehaviour
     void OnHeightUp(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(height+ heightAdd,minPitch,maxPitch);
+        height = Mathf.Clamp(height+ heightAdd,minPitch,maxPitch);
 
     }
 
     void OnHeightDown(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(height- heightAdd,minPitch,maxPitch);
+        height = Mathf.Clamp(height- heightAdd,minPitch,maxPitch);
 
     }
 
     void OnDistanceUp(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(distance+ distanceAdd,minPitch,maxPitch);
+        distance = Mathf.Clamp(distance+ distanceAdd,minPitch,maxPitch);
 
     }
 
     void OnDistanceDown(InputValue value)
     {
         if(!value.isPressed) return;
-        pitch = Mathf.Clamp(distance- distanceAdd,minPitch,maxPitch);
+        distance = Mathf.Clamp(distance- distanceAdd,minPitch,maxPitch);
 
     }
 
