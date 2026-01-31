@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="PageContainer" style="flex-grow: 1;">
+        <ui:VisualElement name="InstructionsContainer" style="flex-grow: 1; width: 50%; height: 75%;"/>
+        <ui:VisualElement name="PictureContainer" style="flex-grow: 1; width: 50%; flex-wrap: nowrap; flex-direction: column; justify-content: space-between; align-self: flex-end; align-content: auto; height: 75%; align-items: stretch; top: -523px;"/>
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1;"/>
+        <ui:VisualElement name="ReturnContainer" style="flex-grow: 1;"/>
+    </ui:VisualElement>
+</ui:UXML>
