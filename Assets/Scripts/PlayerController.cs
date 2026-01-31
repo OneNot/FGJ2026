@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool wasJumpPressedLastFrame = false;
     private Vector3 initialHorizontalJumpVelocity;
 
+    public bool playerGrounded => characterController.isGrounded;
     void OnEnable()
     {
         inputActionAsset.FindActionMap("Player").Enable();
