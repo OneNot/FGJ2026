@@ -163,4 +163,35 @@ public class PlayerController : MonoBehaviour
         //combine and apply movement
         characterController.Move(horizontalMove + verticalMove);
     }
+
+    //Audio stuff
+    public AudioSource sounds;
+    public AudioClip grass;
+    public AudioClip ground;
+    RaycastHit hit;
+    public Transform RayStart;
+    public float range;
+    public LayerMask layerMask;
+
+    public void Footstep()
+    {
+        if (Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask))
+        {
+            if (hit.collider.CompareTag("grass"))
+            {
+                PlayFootstepSoundL(grass);
+            }
+            if (hit.collider.CompareTag("ground"))
+            {
+                PlayFootstepSoundL(ground);
+            }
+        }
+    }
+
+    void PlayFootstepSoundL (AudioClip audio)
+    {
+        Debug.Log("Playing sound");
+        sounds.pitch = Random.Range(0.8f, 1f);
+        sounds.PlayOneShot(audio);
+    }
 }
