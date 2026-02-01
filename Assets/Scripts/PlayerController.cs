@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
             // Open texture editor for the nearest interactable object if it has an opacity mask
             if(nearestObject != null)
             {
-                Texture2D textureToEdit = nearestObject.GetComponent<Renderer>().material.GetTexture("_OpacityMask") as Texture2D;
+                Texture2D textureToEdit = nearestObject?.GetComponent<Renderer>()?.materials?.First(m => m.HasProperty("_OpacityMask"))?.GetTexture("_OpacityMask") as Texture2D;
                 if(textureToEdit != null)
                 {
                     Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
