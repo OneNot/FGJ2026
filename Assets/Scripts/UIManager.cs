@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    private VisualElement mainUIRoot, textureEditorUI;
+    private VisualElement mainUIRoot, textureEditorUI, winScreenUI, pickupUI;
     
     private Label gemsLabel;
     private int totalGemCount = 0;
@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour
         textureEditor = GetComponent<TextureEditor>();
         textureEditorUI.style.display = DisplayStyle.None;
         textureEditor.enabled = false;
+        winScreenUI = mainUIRoot.Q<VisualElement>("WinScreenContainer");
+        winScreenUI.style.display = DisplayStyle.None;
+        pickupUI = mainUIRoot.Q<VisualElement>("GemCollectionContainer");
+        pickupUI.style.display = DisplayStyle.Flex;
         gemsLabel = mainUIRoot.Q<Label>("GemScoreLabel");
     }
 
@@ -45,5 +49,11 @@ public class UIManager : MonoBehaviour
         int currentCount = int.Parse(gemsLabel.text.Split('/')[0].Trim());
         currentCount++;
         gemsLabel.text = $"{currentCount} / {totalGemCount}";
+    }
+
+    public void ShowWinScreen()
+    {
+        winScreenUI.style.display = DisplayStyle.Flex;
+        pickupUI.style.display = DisplayStyle.None;
     }
 }
