@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // exclamation mark item is visible if there's an interactable item
-        if (interactableObjects.Count() > 0) {
+        if (interactableObjects.Count() > 0) {           
             exclamationMark.enabled = true;
         }
         else
@@ -133,15 +133,11 @@ public class PlayerController : MonoBehaviour
             // Open texture editor for the nearest interactable object if it has an opacity mask
             if(nearestObject != null)
             {
-                Material[] materials = nearestObject.GetComponent<Renderer>().materials;
-                foreach (Material mat in materials)
+                Texture2D textureToEdit = nearestObject?.GetComponent<Renderer>()?.materials?.First(m => m.HasProperty("_OpacityMask"))?.GetTexture("_OpacityMask") as Texture2D;
+                if(textureToEdit != null)
                 {
-                    if (mat.GetTexture("_OpacityMask") != null)
-                    {
-                        Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
-                        uiManager.StartTextureEditorForObject(nearestObject);
-                        break;
-                    }
+                    Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
+                    uiManager.StartTextureEditorForObject(nearestObject);
                 }
             }
         }

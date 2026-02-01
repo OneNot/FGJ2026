@@ -20,4 +20,19 @@ public class PlaySound : MonoBehaviour
         }   
     }
 
+    public void GemPickSound()
+    {
+        AudioSource.PlayOneShot(SoundEffects[2]);
+    }
+
+    public void VictorySound()
+    {
+        AudioSource.PlayOneShot(SoundEffects[0]);
+    }
+
+    public void ExclamationSound()
+    {
+        AudioSource.PlayOneShot(SoundEffects[3]);
+    }
+
 }
