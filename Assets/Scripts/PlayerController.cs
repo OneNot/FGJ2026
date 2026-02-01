@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     // Quick check for whether the player is grounded
     public bool playerGrounded => characterController.isGrounded;
 
+    // reference to exclamation mark object in jami ukko
+    [SerializeField] private MeshRenderer exclamationMark;
+
     void Awake()
     {
         // Cache components and input actions
@@ -94,7 +97,6 @@ public class PlayerController : MonoBehaviour
     void PlayFootstepSoundL(AudioClip audio)
     {
         sounds.pitch = Random.Range(0.5f, 0.8f);
-        Debug.Log("Ääni");
         sounds.PlayOneShot(audio);
     }
     private void Start()
@@ -104,6 +106,15 @@ public class PlayerController : MonoBehaviour
     //TODO: Switch inputs to event-based system rather than polling every frame
     void Update()
     {
+	// exclamation mark item is visible if there's an interactable item
+	if (interactableObjects.Count() > 0) {
+	    exclamationMark.enabled = true;
+	}
+	else
+	{
+	    exclamationMark.enabled = false;
+	}
+
         // Handle interaction with nearest interactable object
         if(interactAction.WasPressedThisFrame() && interactableObjects.Count > 0)
         {
