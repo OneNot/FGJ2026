@@ -390,8 +390,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2803518382711249733, guid: b1408ed6894cdd04585ab5261f0a2c4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2993647131834666727}
   m_SourcePrefab: {fileID: 100100000, guid: b1408ed6894cdd04585ab5261f0a2c4c, type: 3}
+--- !u!1 &8585246581732751668 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2803518382711249733, guid: b1408ed6894cdd04585ab5261f0a2c4c, type: 3}
+  m_PrefabInstance: {fileID: 5894355779344474737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2993647131834666727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8585246581732751668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebcc20573863c047a8d830e49ef7e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationSoundHelper
+  pc: {fileID: 8062763045840109434}
 --- !u!4 &8966452363533575054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3288693915233305087, guid: b1408ed6894cdd04585ab5261f0a2c4c, type: 3}
