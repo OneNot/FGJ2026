@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class MaskCollisionChecker : MonoBehaviour
@@ -18,9 +19,8 @@ public class MaskCollisionChecker : MonoBehaviour
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, rayCastDistance, LayerMask.GetMask("MaskedObject")))
         {
             Vector2 textureCoord = hitInfo.textureCoord;
-            //Debug.Log("Texture Coord: " + textureCoord);
-            Color pixelColor = ((Texture2D)hitInfo.collider.gameObject.GetComponent<Renderer>().material.GetTexture("_OpacityMask")).GetPixelBilinear(textureCoord.x, textureCoord.y);
-            //Debug.Log("Pixel Color: " + pixelColor);
+
+            Color pixelColor = ((Texture2D)hitInfo.collider.gameObject.GetComponent<Renderer>().materials.First(m => m.HasProperty("_OpacityMask")).GetTexture("_OpacityMask")).GetPixelBilinear(textureCoord.x, textureCoord.y);
 
             if(pixelColor.r < 0.5f) //assuming black areas are transparent
             {
