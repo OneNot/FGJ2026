@@ -264,7 +264,7 @@ MonoBehaviour:
   grass: {fileID: 8300000, guid: 3a1a0b51208ff1846b983f253da7abe3, type: 3}
   ground: {fileID: 8300000, guid: 8afdf8910dabb0645a516e2cd83609da, type: 3}
   RayStart: {fileID: 8472409251691538433}
-  range: 0.5
+  range: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 0

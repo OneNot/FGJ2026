@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,6 +63,45 @@ public class PlayerController : MonoBehaviour
         {
             interactableObjects.Remove(other.gameObject);
         }
+    }
+
+    //Audio stuff
+    public AudioSource sounds;
+    public AudioClip grass;
+    public AudioClip ground;
+    RaycastHit hit;
+    public Transform RayStart;
+    public float range;
+    public LayerMask layerMask;
+    public bool playSound;
+
+    public void Footstep()
+    {
+        if (Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask))
+        {
+                if (hit.collider.CompareTag("grass") && playSound == false)
+                {
+                    PlayFootstepSoundL(grass);
+                    playSound = true;
+                    StartCoroutine(Wait());
+                }
+                if (hit.collider.CompareTag("ground") && playSound == false)
+                {
+                    PlayFootstepSoundL(ground);
+                    playSound = true;
+                    StartCoroutine(Wait());
+                }
+        }
+    }
+
+    void PlayFootstepSoundL(AudioClip audio)
+    {
+        sounds.pitch = Random.Range(0.5f, 0.8f);
+        sounds.PlayOneShot(audio);
+    }
+    private void Start()
+    {
+        playSound = false;
     }
 
     //TODO: Switch inputs to event-based system rather than polling every frame
@@ -162,36 +202,13 @@ public class PlayerController : MonoBehaviour
 
         //combine and apply movement
         characterController.Move(horizontalMove + verticalMove);
+
+        Footstep();
     }
 
-    //Audio stuff
-    public AudioSource sounds;
-    public AudioClip grass;
-    public AudioClip ground;
-    RaycastHit hit;
-    public Transform RayStart;
-    public float range;
-    public LayerMask layerMask;
-
-    public void Footstep()
+    IEnumerator Wait()
     {
-        if (Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask))
-        {
-            if (hit.collider.CompareTag("grass"))
-            {
-                PlayFootstepSoundL(grass);
-            }
-            if (hit.collider.CompareTag("ground"))
-            {
-                PlayFootstepSoundL(ground);
-            }
-        }
-    }
-
-    void PlayFootstepSoundL (AudioClip audio)
-    {
-        Debug.Log("Playing sound");
-        sounds.pitch = Random.Range(0.8f, 1f);
-        sounds.PlayOneShot(audio);
+        yield return new WaitForSeconds(0.3f);
+        playSound = false;
     }
 }
