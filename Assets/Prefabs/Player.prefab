@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7494462829186217382}
   - component: {fileID: 8062763045840109434}
   - component: {fileID: 140782940829384206}
+  - component: {fileID: 632536450762877303}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -254,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be5b8e1689e88541990a83955cb215c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  soundManager: {fileID: 0}
   uiManager: {fileID: 0}
   moveSpeed: 5
   fakeGravity: -19.62
@@ -290,6 +292,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 1.96}
+--- !u!114 &632536450762877303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3912192999109194367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ae2f4ab91e66074396aed0161918d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnHelper
+  lastRespawnPosition: {x: 0, y: 0, z: 0}
+  previousFlag: {fileID: 0}
+  cc: {fileID: 0}
 --- !u!1 &8116509308752032378
 GameObject:
   m_ObjectHideFlags: 0
