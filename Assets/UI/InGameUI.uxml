@@ -9,12 +9,12 @@
                 <ui:Button text="EXIT" name="ExitButton" style="flex-shrink: 1; flex-grow: 1; align-items: auto; align-content: auto;"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="GemCollectionContainer" style="flex-grow: 1; position: absolute; bottom: 0; right: auto; left: 0; min-width: auto; width: 500px; height: 150px; margin-top: 0; margin-right: 0; margin-bottom: 50px; margin-left: 50px; flex-direction: row;">
-            <ui:VisualElement name="GemImageContainer" style="flex-grow: 1; flex-basis: auto; align-content: auto; justify-content: center; align-items: auto; flex-shrink: 1; aspect-ratio: auto; flex-direction: column;">
-                <ui:Image name="GemImage" source="project://database/Assets/3D%20Models/Environment/Textures/emerald_sprite.png?fileID=2800000&amp;guid=8f096e0c8ca7cdc488d3c9b222a53375&amp;type=3#emerald_sprite" style="aspect-ratio: 1;"/>
+        <ui:VisualElement name="GemCollectionContainer" style="flex-grow: 1; position: absolute; bottom: 0; right: auto; left: 0; min-width: auto; width: 300px; height: 100px; margin-top: 0; margin-right: 0; margin-bottom: 25px; margin-left: 25px; flex-direction: row; align-items: stretch; justify-content: flex-start; align-self: auto; align-content: flex-start;">
+            <ui:VisualElement name="GemImageContainer" style="flex-grow: 1; flex-basis: auto; align-content: center; justify-content: center; align-items: center; flex-shrink: 1; aspect-ratio: auto; flex-direction: column; width: 50px; height: 100%;">
+                <ui:Image name="GemImage" source="project://database/Assets/3D%20Models/Environment/Textures/emerald_sprite.png?fileID=2800000&amp;guid=8f096e0c8ca7cdc488d3c9b222a53375&amp;type=3#emerald_sprite" scale-mode="ScaleToFit" style="aspect-ratio: auto; flex-grow: 1; flex-direction: column; align-items: auto; align-content: auto; justify-content: center; align-self: center;"/>
             </ui:VisualElement>
             <ui:VisualElement name="GemTextContainer" style="flex-grow: 1; justify-content: center; align-self: auto; align-content: auto; align-items: auto;">
-                <ui:Label text="10/10" name="GemScoreLabel" style="align-self: center; justify-content: center; align-items: center; align-content: center; -unity-font-style: bold; -unity-text-auto-size: best-fit 20px 100px; -unity-text-generator: advanced;"/>
+                <ui:Label text="10/10" name="GemScoreLabel" style="align-self: center; justify-content: center; align-items: center; align-content: center; -unity-font-style: bold; -unity-text-auto-size: none; -unity-text-generator: standard; font-size: 52px; color: rgb(255, 255, 255); text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.88);"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

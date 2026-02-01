@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8109709372155908494}
   m_Layer: 0
   m_Name: UIManger
-  m_TagString: Untagged
+  m_TagString: UIManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,4 +81,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ba78129f72fe5439984108e0b69c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  brushSize: 100
+  brushSize: 50

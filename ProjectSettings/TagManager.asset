@@ -9,6 +9,8 @@ TagManager:
   - InteractableObject
   - grass
   - ground
+  - UIManager
+  - Pickup
   layers:
   - Default
   - TransparentFX

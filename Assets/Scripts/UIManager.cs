@@ -1,21 +1,30 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    private VisualElement TextureEditorUI;
+    private VisualElement mainUIRoot, textureEditorUI;
+    
+    private Label gemsLabel;
+    private int totalGemCount = 0;
 
     private TextureEditor textureEditor;
 
 
     void Awake()
     {
-        TextureEditorUI = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("TextureEditorContainer");
+        mainUIRoot = GetComponent<UIDocument>().rootVisualElement;
+        textureEditorUI = mainUIRoot.Q<VisualElement>("TextureEditorContainer");
         textureEditor = GetComponent<TextureEditor>();
-        TextureEditorUI.style.display = DisplayStyle.None;
+        textureEditorUI.style.display = DisplayStyle.None;
         textureEditor.enabled = false;
+        gemsLabel = mainUIRoot.Q<Label>("GemScoreLabel");
+    }
+
+    void Start()
+    {
+        totalGemCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        gemsLabel.text = $"0 / {totalGemCount}";
     }
 
     //TODO: Disable Player InputMap when in any UI mode and re-enable when exiting UI mode
@@ -24,6 +33,17 @@ public class UIManager : MonoBehaviour
     {
         textureEditor.enabled = true;
         textureEditor.InitializeForObject(obj);
-        TextureEditorUI.style.display = DisplayStyle.Flex;
+        textureEditorUI.style.display = DisplayStyle.Flex;
+    }
+
+    public void SetGemCount(int count)
+    {
+        gemsLabel.text = $"{count} / {totalGemCount}";
+    }
+    public void AddGem()
+    {
+        int currentCount = int.Parse(gemsLabel.text.Split('/')[0].Trim());
+        currentCount++;
+        gemsLabel.text = $"{currentCount} / {totalGemCount}";
     }
 }

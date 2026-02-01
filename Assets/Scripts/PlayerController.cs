@@ -99,21 +99,18 @@ public class PlayerController : MonoBehaviour
         sounds.pitch = Random.Range(0.5f, 0.8f);
         sounds.PlayOneShot(audio);
     }
-    private void Start()
-    {
-    }
 
     //TODO: Switch inputs to event-based system rather than polling every frame
     void Update()
     {
-	// exclamation mark item is visible if there's an interactable item
-	if (interactableObjects.Count() > 0) {
-	    exclamationMark.enabled = true;
-	}
-	else
-	{
-	    exclamationMark.enabled = false;
-	}
+        // exclamation mark item is visible if there's an interactable item
+        if (interactableObjects.Count() > 0) {
+            exclamationMark.enabled = true;
+        }
+        else
+        {
+            exclamationMark.enabled = false;
+        }
 
         // Handle interaction with nearest interactable object
         if(interactAction.WasPressedThisFrame() && interactableObjects.Count > 0)
