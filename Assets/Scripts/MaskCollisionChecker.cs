@@ -20,15 +20,23 @@ public class MaskCollisionChecker : MonoBehaviour
         {
             Vector2 textureCoord = hitInfo.textureCoord;
 
-            Color pixelColor = ((Texture2D)hitInfo.collider.gameObject.GetComponent<Renderer>().materials.First(m => m.HasProperty("_OpacityMask")).GetTexture("_OpacityMask")).GetPixelBilinear(textureCoord.x, textureCoord.y);
-
-            if(pixelColor.r < 0.5f) //assuming black areas are transparent
+            Material[] materials = hitInfo.collider.gameObject.GetComponent<Renderer>().materials;
+            foreach (Material mat in materials)
             {
-                hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(false, 1f);
-            }
-            else
-            {
-                hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(true); 
+                Texture2D mask = mat.GetTexture("_OpacityMask") as Texture2D;
+                if (mask != null)
+                {
+                    Color pixelColor = mask.GetPixelBilinear(textureCoord.x, textureCoord.y);
+                    if(pixelColor.r < 0.5f) //assuming black areas are transparent
+                    {
+                        hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(false, 1f);
+                    }
+                    else
+                    {
+                        hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(true); 
+                    }
+                    return; //exit after first found mask
+                }
             }
         }
     }

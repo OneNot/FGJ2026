@@ -22,9 +22,6 @@ public class TextureEditor : MonoBehaviour
     // Whether the editor has been successfully initialized
     private bool isInitialized = false;
 
-    // The object whose material/texture we're editing
-    private GameObject targetObject;
-
     [SerializeField]
     // Brush size in pixels (square brush)
     private int brushSize = 20;
@@ -41,8 +38,6 @@ public class TextureEditor : MonoBehaviour
             exitButtonElement.clicked -= onExitClicked;
         if (imageElement != null)
             imageElement.image = null;
-        targetObject = null;
-
     }
 
     void Update()
@@ -130,9 +125,19 @@ public class TextureEditor : MonoBehaviour
     /// </summary>
     public void InitializeForObject(GameObject obj)
     {
-        targetObject = obj;
-        Material mat = obj.GetComponent<Renderer>().material;
-        Texture2D newTexture = mat.GetTexture("_OpacityMask") as Texture2D;
+        Material[] materials = obj.GetComponent<Renderer>().materials;
+        Texture2D newTexture = null;
+        Material mat = null;
+        foreach (Material m in materials)
+        {
+            newTexture = m.GetTexture("_OpacityMask") as Texture2D; 
+            if (newTexture != null)
+            {
+                mat = m;
+                break;
+            }
+        }
+
         Debug.Log("TextureEditor initializing with texture: " + newTexture.name);
 
         // Cache input actions
