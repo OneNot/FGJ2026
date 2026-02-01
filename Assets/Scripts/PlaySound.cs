@@ -10,13 +10,14 @@ public class PlaySound : MonoBehaviour
         AudioSource = GetComponent<AudioSource>();
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == ("Player") && this.gameObject.tag == "Checkpoint")
+        if (other.gameObject.tag == ("Player") && this.gameObject.tag == "Checkpoint")
         {
-            Debug.Log("Here");
+            Debug.Log("kaksi");
             AudioSource.clip = SoundEffects[1];
             AudioSource.Play();
-        }       
+        }   
     }
+
 }
