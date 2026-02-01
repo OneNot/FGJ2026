@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private PlaySound soundManager;
+
     public UIManager uiManager;
 
     private InputAction moveAction, jumpAction, interactAction;
@@ -104,10 +107,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // exclamation mark item is visible if there's an interactable item
-        if (interactableObjects.Count() > 0) {           
+        if (interactableObjects.Count() > 0 && exclamationMark.enabled == false) {           
             exclamationMark.enabled = true;
+            soundManager.ExclamationSound();
         }
-        else
+        else if(interactableObjects.Count() == 0 && exclamationMark.enabled == true)
         {
             exclamationMark.enabled = false;
         }
@@ -133,11 +137,15 @@ public class PlayerController : MonoBehaviour
             // Open texture editor for the nearest interactable object if it has an opacity mask
             if(nearestObject != null)
             {
-                Texture2D textureToEdit = nearestObject?.GetComponent<Renderer>()?.materials?.First(m => m.HasProperty("_OpacityMask"))?.GetTexture("_OpacityMask") as Texture2D;
-                if(textureToEdit != null)
+                Material[] materials = nearestObject.GetComponent<Renderer>().materials;
+                foreach (Material mat in materials)
                 {
-                    Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
-                    uiManager.StartTextureEditorForObject(nearestObject);
+                    if (mat.GetTexture("_OpacityMask") != null)
+                    {
+                        Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
+                        uiManager.StartTextureEditorForObject(nearestObject);
+                        break;
+                    }
                 }
             }
         }
