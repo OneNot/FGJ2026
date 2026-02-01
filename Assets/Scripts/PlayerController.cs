@@ -88,19 +88,19 @@ public class PlayerController : MonoBehaviour
             
                 if (hit.collider.CompareTag("grass"))
                 {
-                    PlayFootstepSoundL(grass);
+                    PlayFootstepSoundL(grass, 0.175f);
                 }
                 if (hit.collider.CompareTag("ground"))
                 {
-                    PlayFootstepSoundL(ground);
+                    PlayFootstepSoundL(ground, 0.4f);
                 }
         }
     }
 
-    void PlayFootstepSoundL(AudioClip audio)
+    void PlayFootstepSoundL(AudioClip audio, float volume = 1)
     {
         sounds.pitch = Random.Range(0.5f, 0.8f);
-        sounds.PlayOneShot(audio);
+        sounds.PlayOneShot(audio, volume);
     }
 
     //TODO: Switch inputs to event-based system rather than polling every frame
