@@ -14,7 +14,7 @@ public class TextureEditor : MonoBehaviour
     private Action onApplyClicked, onExitClicked; // stored delegates so we can unsubscribe
 
     // Input actions from the Input System
-    private InputAction drawPointerAction, drawAction;
+    private InputAction drawPointerAction, drawWhiteAction, drawBlackAction;
 
     // The working copy of the texture that we paint into
     private Texture2D editableTexture;
@@ -58,7 +58,7 @@ public class TextureEditor : MonoBehaviour
     // relative to the UI `Image`, and paints a square brush of `brushSize`.
     private void RunDrawLogic() {
         //only run draw logic if the draw action is pressed
-        if(drawAction.IsPressed()) {
+        if(drawWhiteAction.IsPressed() || drawBlackAction.IsPressed()) {
             Vector2 pointerPosition = drawPointerAction.ReadValue<Vector2>();
             Vector2 uvPos = GetUVFromScreenPosition(pointerPosition);
             Vector2 uvPosClamped = new Vector2(
@@ -75,7 +75,7 @@ public class TextureEditor : MonoBehaviour
             // Only draw if UV cordinates are within valid range
             if(Vector2.Distance(uvPos, Vector2.zero) >= 0 && Vector2.Distance(uvPos, Vector2.one) >= 0)
             {
-                Debug.Log($"Drawing at UV: {uvPosClamped}, Pixel: {pixelPos}, Texture size: {editableTexture.width}x{editableTexture.height}");
+                //Debug.Log($"Drawing at UV: {uvPosClamped}, Pixel: {pixelPos}, Texture size: {editableTexture.width}x{editableTexture.height}");
 
                 int px = (int)pixelPos.x;
                 int py = (int)pixelPos.y;
@@ -86,7 +86,7 @@ public class TextureEditor : MonoBehaviour
                     {
                         if(x >= 0 && x < editableTexture.width && y >= 0 && y < editableTexture.height)
                         {
-                            editableTexture.SetPixel(x, y, Color.black);
+                            editableTexture.SetPixel(x, y, drawWhiteAction.IsPressed() ? Color.white : Color.black);
                         }
                     }
                 }
@@ -119,8 +119,6 @@ public class TextureEditor : MonoBehaviour
             localPosition.y / worldBound.height
         );
         
-        Debug.Log($"Screen: {screenPosition}, Panel: {panelPosition}, WorldBound: {worldBound}, Local: {localPosition}, UV: {uv}");
-        
         return uv;
     }
 
@@ -139,7 +137,8 @@ public class TextureEditor : MonoBehaviour
 
         // Cache input actions
         drawPointerAction = InputSystem.actions.FindAction("Point");
-        drawAction = InputSystem.actions.FindAction("Click");
+        drawWhiteAction = InputSystem.actions.FindAction("Click");
+        drawBlackAction = InputSystem.actions.FindAction("RightClick");
 
         // Find UI elements in the UIDocument
         VisualElement TextureEditorUI = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("TextureEditorContainer");
