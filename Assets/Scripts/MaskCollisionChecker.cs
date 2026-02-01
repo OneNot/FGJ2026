@@ -28,7 +28,7 @@ public class MaskCollisionChecker : MonoBehaviour
             }
             else
             {
-                hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(true);
+                hitInfo.collider.gameObject.GetComponent<InteractableObject>().SetPlayerCollisionAllowed(true); 
             }
         }
     }

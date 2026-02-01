@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: exclamation
+  m_Name: full-mask
   m_Shader: {fileID: -6465566751694194690, guid: 74451ea48a4c0a940afe560501a18124, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTexture:
-        m_Texture: {fileID: 2800000, guid: 18b71ca067f339a43b2eef48eba6e32d, type: 3}
+        m_Texture: {fileID: 2800000, guid: f1b2be19514eade4eadf19c0ee39ecc8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OpacityMask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: bf8cf1f8f8df21744a9b45a4a4851ed1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -131,7 +131,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &158683203023205611
+--- !u!114 &7928050431000303577
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
