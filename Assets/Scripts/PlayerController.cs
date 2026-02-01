@@ -73,23 +73,19 @@ public class PlayerController : MonoBehaviour
     public Transform RayStart;
     public float range;
     public LayerMask layerMask;
-    public bool playSound;
 
     public void Footstep()
     {
         if (Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask))
         {
-                if (hit.collider.CompareTag("grass") && playSound == false)
+            
+                if (hit.collider.CompareTag("grass"))
                 {
                     PlayFootstepSoundL(grass);
-                    playSound = true;
-                    StartCoroutine(Wait());
                 }
-                if (hit.collider.CompareTag("ground") && playSound == false)
+                if (hit.collider.CompareTag("ground"))
                 {
                     PlayFootstepSoundL(ground);
-                    playSound = true;
-                    StartCoroutine(Wait());
                 }
         }
     }
@@ -97,11 +93,11 @@ public class PlayerController : MonoBehaviour
     void PlayFootstepSoundL(AudioClip audio)
     {
         sounds.pitch = Random.Range(0.5f, 0.8f);
+        Debug.Log("Ääni");
         sounds.PlayOneShot(audio);
     }
     private void Start()
     {
-        playSound = false;
     }
 
     //TODO: Switch inputs to event-based system rather than polling every frame
@@ -202,14 +198,6 @@ public class PlayerController : MonoBehaviour
 
         //combine and apply movement
         characterController.Move(horizontalMove + verticalMove);
-
-        Footstep();
-    }
-
-    IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(0.3f);
-        playSound = false;
     }
 
 
