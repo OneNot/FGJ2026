@@ -10,25 +10,35 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
 
+    // Track nearby interactable objects within trigger range
     private List<GameObject> interactableObjects = new List<GameObject>();
 
+    // Movement and physics parameters
     [SerializeField]
     private float moveSpeed = 5f,
     fakeGravity = -9.81f,
     jumpHeight = 1.5f,
     maxJumpHoldTime = 0.5f,
     initialJumpVelocityEffectOnJumpArc = 0.5f;
+    
     private Animator anim;
 
+    // Jump and vertical movement tracking
     private float verticalVelocity = 0f,
     jumpHoldTime = 0f;
+    
+    // Track jump state for detecting new press
     private bool wasJumpPressedLastFrame = false;
+    
+    // Horizontal velocity imparted when during a jump
     private Vector3 initialHorizontalJumpVelocity;
 
+    // Quick check for whether the player is grounded
     public bool playerGrounded => characterController.isGrounded;
 
     void Awake()
     {
+        // Cache components and input actions
         characterController = GetComponent<CharacterController>();
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
@@ -36,6 +46,7 @@ public class PlayerController : MonoBehaviour
 	    anim = GetComponentInChildren<Animator>();
     }
 
+    // Add object to interaction list when entering trigger
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("InteractableObject"))
@@ -43,6 +54,8 @@ public class PlayerController : MonoBehaviour
             interactableObjects.Add(other.gameObject);
         }
     }
+    
+    // Remove object from interaction list when exiting trigger
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("InteractableObject"))
@@ -54,12 +67,14 @@ public class PlayerController : MonoBehaviour
     //TODO: Switch inputs to event-based system rather than polling every frame
     void Update()
     {
+        // Handle interaction with nearest interactable object
         if(interactAction.WasPressedThisFrame() && interactableObjects.Count > 0)
         {
             GameObject nearestObject = null;
             float nearestDistanceSqr = float.MaxValue;
             Vector3 playerPosition = transform.position;
 
+            // Find the closest interactable object
             foreach(GameObject obj in interactableObjects)
             {
                 float distSqr = (obj.transform.position - playerPosition).sqrMagnitude;
@@ -70,13 +85,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            // Open texture editor for the nearest interactable object if it has an opacity mask
             if(nearestObject != null)
             {
                 Texture2D textureToEdit = nearestObject.GetComponent<Renderer>().material.GetTexture("_OpacityMask") as Texture2D;
                 if(textureToEdit != null)
                 {
-                    Debug.Log("Opening Texture Editor for object: " + nearestObject.name + " with texture: " + textureToEdit.name + " using UIManager: " + uiManager.name);
-                    uiManager.StartTextureEditorWithTexture(textureToEdit);
+                    Debug.Log("Opening Texture Editor for object: " + nearestObject.name);
+                    uiManager.StartTextureEditorForObject(nearestObject);
                 }
             }
         }

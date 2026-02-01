@@ -5,26 +5,25 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    private UIDocument uiDocument;
+    private VisualElement TextureEditorUI;
 
     private TextureEditor textureEditor;
 
 
     void Awake()
     {
-        uiDocument = GetComponent<UIDocument>();
+        TextureEditorUI = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("TextureEditorContainer");
         textureEditor = GetComponent<TextureEditor>();
-        uiDocument.rootVisualElement.style.display = DisplayStyle.None;
+        TextureEditorUI.style.display = DisplayStyle.None;
         textureEditor.enabled = false;
     }
 
     //TODO: Disable Player InputMap when in any UI mode and re-enable when exiting UI mode
-
-    public void StartTextureEditorWithTexture(Texture2D texture)
+    
+    public void StartTextureEditorForObject(GameObject obj)
     {
-        Debug.Log("UIManager starting Texture Editor (" + textureEditor.name + ") with texture: " + texture.name);
         textureEditor.enabled = true;
-        textureEditor.InitializeWithTexture(texture);
-        uiDocument.rootVisualElement.style.display = DisplayStyle.Flex;
+        textureEditor.InitializeForObject(obj);
+        TextureEditorUI.style.display = DisplayStyle.Flex;
     }
 }
